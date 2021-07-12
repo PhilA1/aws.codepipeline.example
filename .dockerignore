@@ -1,0 +1,10 @@
+.git
+.github
+src/api/node_modules
+.gitignore
+.jshintrc
+.vscode
+*.md
+Dockerfile
+npm-debug.log
+docs
