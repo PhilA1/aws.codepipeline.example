@@ -17,6 +17,11 @@ RUN npm install
 RUN npm run build
 RUN npm run test
 
+#generate stack template
+WORKDIR /app/cdk
+RUN cdk synth > template-export.yml
+
+
 #runtime
 FROM node:10.4-slim as production
 RUN mkdir -p . /app

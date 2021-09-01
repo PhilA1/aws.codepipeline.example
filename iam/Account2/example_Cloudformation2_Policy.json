@@ -1,0 +1,239 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": [
+                "arn:aws:s3:::example-build",
+                "arn:aws:s3:::example-build/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "lambda:CreateAlias",
+                "lambda:CreateFunction",
+                "lambda:DeleteAlias",
+                "lambda:DeleteFunction",
+                "lambda:DeleteFunctionConcurrency",
+                "lambda:DeleteLayerVersion",
+                "lambda:DeleteProvisionedConcurrencyConfig",
+                "lambda:GetEventSourceMapping",
+                "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration",
+                "lambda:GetLayerVersion",
+                "lambda:ListTags",
+                "lambda:ListVersionsByFunction",
+                "lambda:PublishLayerVersion",
+                "lambda:PublishVersion",
+                "lambda:PutFunctionConcurrency",
+                "lambda:PutProvisionedConcurrencyConfig",
+                "lambda:TagResource",
+                "lambda:UntagResource",
+                "lambda:UpdateAlias",
+                "lambda:UpdateFunctionCode",
+                "lambda:UpdateFunctionConfiguration"
+            ],
+            "Resource": "arn:aws:lambda:eu-west-1:022222222222:function:example*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "lambda:AddPermission",
+                "lambda:DeleteFunctionEventInvokeConfig",
+                "lambda:InvokeFunction",
+                "lambda:PutFunctionEventInvokeConfig",
+                "lambda:RemovePermission",
+                "lambda:UpdateFunctionEventInvokeConfig"
+            ],
+            "Resource": "arn:aws:lambda:eu-west-1:022222222222:function:example*",
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "ArnEquals": {
+                    "lambda:FunctionArn": "arn:aws:lambda:eu-west-1:022222222222:function:example*"
+                }
+            },
+            "Action": [
+                "lambda:CreateEventSourceMapping",
+                "lambda:DeleteEventSourceMapping",
+                "lambda:UpdateEventSourceMapping",
+                "lambda:GetEventSourceMapping"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "lambda:AddLayerVersionPermission",
+                "lambda:RemoveLayerVersionPermission"
+            ],
+            "Resource": "arn:aws:lambda:eu-west-1:022222222222:layer:example*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "events:DeleteRule",
+                "events:DescribeRule",
+                "events:ListTagsForResource",
+                "events:PutRule",
+                "events:PutTargets",
+                "events:PutPermission",
+                "events:RemoveTargets",
+                "events:RemovePermission",
+                "events:TagResource",
+                "events:UntagResource"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::bucket/example*",
+                "arn:aws:s3:::example*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "sns:*"
+            ],
+            "Resource": "arn:aws:sns:eu-west-1:022222222222:example*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "sqs:*"
+            ],
+            "Resource": "arn:aws:sqs:eu-west-1:022222222222:example*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::022222222222:role/example*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "cloudformation:CreateChangeSet"
+            ],
+            "Resource": [
+                "arn:aws:cloudformation:eu-west-1:aws:transform/Serverless-2016-10-31"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "iam:AttachRolePolicy",
+                "iam:CreateRole",
+                "iam:DeleteRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:Tag*",
+                "iam:CreateServiceLinkedRole",
+                "iam:DeleteRole",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:PutRolePolicy"
+            ],
+            "Resource": [
+                "arn:aws:iam::022222222222:role/example*",
+                "arn:aws:iam::022222222222:policy/example*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "cloudwatch:DeleteAlarms",
+                "cloudwatch:DeleteDashboards",
+                "cloudwatch:DisableAlarmActions",
+                "cloudwatch:EnableAlarmActions",
+                "cloudwatch:GetDashboard",
+                "cloudwatch:ListTagsForResource",
+                "cloudwatch:PutDashboard",
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:PutMetricData",
+                "cloudwatch:SetAlarmState",
+                "cloudwatch:TagResource",
+                "cloudwatch:UntagResource"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "logs:*"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "secretsmanager:CreateSecret",
+                "secretsmanager:GetRandomPassword",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:ListSecrets",
+                "secretsmanager:CancelRotateSecret",
+                "secretsmanager:DeleteSecret",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:PutSecretValue",
+                "secretsmanager:RestoreSecret",
+                "secretsmanager:RotateSecret",
+                "secretsmanager:TagResource",
+                "secretsmanager:UntagResource",
+                "secretsmanager:UpdateSecret",
+                "secretsmanager:UpdateSecretVersionStage"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestTag/aws:cloudformation:stack-name": [
+                        "example"
+                    ]
+                },
+                "ForAllValues:StringEquals": {
+                    "aws:TagKeys": "aws:cloudformation:stack-name"
+                }
+            },
+            "Action": [
+                "secretsmanager:DeleteResourcePolicy",
+                "secretsmanager:PutResourcePolicy"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "ssm:DescribeParameters",
+                "ssm:AddTagsToResource",
+                "ssm:DeleteParameter",
+                "ssm:DeleteParameters",
+                "ssm:DescribeDocumentParameters",
+                "ssm:LabelParameterVersion",
+                "ssm:GetParameter",
+                "ssm:GetParameterHistory",
+                "ssm:GetParameters",
+                "ssm:GetParametersByPath",
+                "ssm:PutParameter",
+                "ssm:RemoveTagsFromResource"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        }
+    ]
+}

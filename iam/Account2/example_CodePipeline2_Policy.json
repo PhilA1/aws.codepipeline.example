@@ -1,0 +1,56 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Sid": "DeploymentPipelinePermissions",
+        "Action": [
+          "iam:PassRole"
+        ],
+        "Resource": "*",
+        "Effect": "Allow",
+        "Condition": {
+            "StringEqualsIfExists": {
+                "iam:PassedToService": [
+                    "cloudformation.amazonaws.com",
+                    "elasticbeanstalk.amazonaws.com",
+                    "ec2.amazonaws.com",
+                    "ecs-tasks.amazonaws.com"
+                ]
+            }
+        }
+      },
+      {
+        "Sid": "UseCloudformation",
+        "Action": [
+            "cloudformation:*"
+        ],
+        "Resource": "arn:aws:cloudformation:eu-west-1:022222222222:stack/example*",
+        "Effect": "Allow"
+      },
+      {
+        "Sid": "AccessDeploymentArtifacts",
+        "Effect": "Allow",
+        "Action": [
+          "s3:Get*",
+          "s3:Put*",
+          "s3:ListBucket"
+        ],
+        "Resource": [
+          "arn:aws:s3:::codepipeline-eu-west-1-artifacts/*"
+        ]
+      },
+      {
+        "Sid": "DecryptDeploymentArtifacts",
+        "Effect": "Allow",
+        "Action": [
+          "kms:DescribeKey",
+          "kms:GenerateDataKey*",
+          "kms:Encrypt",
+          "kms:ReEncrypt*",
+          "kms:Decrypt"
+        ],
+        "Resource": [
+          "arn:aws:kms:eu-west-1:011111111111:key/49442de3-5921-4307-b60c-f5365bd43c8a"
+        ]
+      }
+    ]
+  }

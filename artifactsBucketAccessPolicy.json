@@ -1,0 +1,58 @@
+{
+    "Version": "2012-10-17",
+    "Id": "SecureDeploymentPolicy",
+    "Statement": [
+        {
+            "Sid": "DenyUnEncryptedObjectUploads",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::codepipeline-eu-west-1-679235167016/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-server-side-encryption": "aws:kms"
+                }
+            }
+        },
+        {
+            "Sid": "DenyInsecureConnections",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::codepipeline-eu-west-1-679235167016/*",
+            "Condition": {
+                "Bool": {
+                    "aws:SecureTransport": "false"
+                }
+            }
+        },
+        {
+            "Sid": "StageAndLiveDeploymentObjectAccess",
+            "Action": [
+              "s3:Get*"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:s3:::codepipeline-eu-west-1-679235167016/*",
+            "Principal": {
+              "AWS": [
+                "arn:aws:iam::094345010951:root",
+                "arn:aws:iam::189470795347:root"
+              ]
+            }
+          },
+          {
+            "Sid": "StageAndLiveDeploymentAccess",
+            "Action": [
+              "s3:ListBucket"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:s3:::codepipeline-eu-west-1-679235167016",
+            "Principal": {
+              "AWS": [
+                "arn:aws:iam::094345010951:root",
+                "arn:aws:iam::189470795347:root"
+              ]
+            }
+          }
+    ]
+}
