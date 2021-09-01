@@ -1,0 +1,191 @@
+{
+    "pipeline": {
+        "name": "example-pipeline",
+        "roleArn": "arn:aws:iam::011111111111:role/service-role/example-service-role",
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-eu-west-1-artifacts",
+            "encryptionKey": {
+                "id": "arn:aws:kms:eu-west-1:011111111111:alias/example-kms",
+                "type": "KMS"
+            }
+        },
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "name": "Source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "AWS",
+                            "provider": "CodeStarSourceConnection",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "BranchName": "main",
+                            "ConnectionArn": "arn:aws:codestar-connections:eu-west-1:011111111111:connection/3f70f98d-710e-4976-82d2-1cfd65a7d6dc",
+                            "FullRepositoryId": "phila1/example-pipeline",
+                            "OutputArtifactFormat": "CODE_ZIP"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "inputArtifacts": [],
+                        "region": "eu-west-1",
+                        "namespace": "SourceVariables"
+                    }
+                ]
+            },
+            {
+                "name": "Build",
+                "actions": [
+                    {
+                        "name": "Build",
+                        "actionTypeId": {
+                            "category": "Build",
+                            "owner": "AWS",
+                            "provider": "CodeBuild",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "ProjectName": "example-build"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "BuildArtifact"
+                            }
+                        ],
+                        "inputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "region": "eu-west-1",
+                        "namespace": "BuildVariables"
+                    }
+                ]
+            },
+            {
+                "name": "Deploy",
+                "actions": [
+                    {
+                        "name": "CreateChangeSet",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "provider": "CloudFormation",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {
+                            "ActionMode": "CHANGE_SET_REPLACE",
+                            "Capabilities": "CAPABILITY_NAMED_IAM",
+                            "ChangeSetName": "pipeline-changeset",
+                            "ParameterOverrides": "{\"AppId\":\"example\",\"Environment\":\"ACCOUNT1\"}",
+                            "RoleArn": "arn:aws:iam::011111111111:role/example_cloudformationRole",
+                            "StackName": "example-stack",
+                            "TemplatePath": "BuildArtifact::template-export.yml"
+                        },
+                        "outputArtifacts": [],
+                        "inputArtifacts": [
+                            {
+                                "name": "BuildArtifact"
+                            }
+                        ],
+                        "region": "eu-west-1"
+                    },
+                    {
+                        "name": "ExecuteChangeSet",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "provider": "CloudFormation",
+                            "version": "1"
+                        },
+                        "runOrder": 2,
+                        "configuration": {
+                            "ActionMode": "CHANGE_SET_EXECUTE",
+                            "ChangeSetName": "pipeline-changeset",
+                            "StackName": "example-stack"
+                        },
+                        "outputArtifacts": [],
+                        "inputArtifacts": [],
+                        "region": "eu-west-1"
+                    }
+                ]
+            },
+            {
+                "name": "Deploy_to_ACCOUNT2",
+                "actions": [
+                    {
+                        "name": "Manual_Approval",
+                        "actionTypeId": {
+                            "category": "Approval",
+                            "owner": "AWS",
+                            "provider": "Manual",
+                            "version": "1"
+                        },
+                        "runOrder": 1,
+                        "configuration": {},
+                        "outputArtifacts": [],
+                        "inputArtifacts": [],
+                        "region": "eu-west-1"
+                    },
+                    {
+                        "name": "CreateChangeSetACCOUNT2",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "provider": "CloudFormation",
+                            "version": "1"
+                        },
+                        "runOrder": 2,
+                        "configuration": {
+                            "ActionMode": "CHANGE_SET_REPLACE",
+                            "Capabilities": "CAPABILITY_NAMED_IAM",
+                            "ChangeSetName": "pipeline-changeset",
+                            "ParameterOverrides": "{\"AppId\":\"example\",\"Environment\":\"ACCOUNT2\"}",
+                            "RoleArn": "arn:aws:iam::022222222222:role/example_cloudformationRole2",
+                            "StackName": "example-stack",
+                            "TemplatePath": "BuildArtifact::template-export.yml"
+                        },
+                        "outputArtifacts": [],
+                        "inputArtifacts": [
+                            {
+                                "name": "BuildArtifact"
+                            }
+                        ],
+                        "region": "eu-west-1",
+                        "roleArn": "arn:aws:iam::022222222222:role/example_deploymentRole2"
+                    },
+                    {
+                        "name": "ExecuteChangeSetACCOUNT2",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "provider": "CloudFormation",
+                            "version": "1"
+                        },
+                        "runOrder": 3,
+                        "configuration": {
+                            "ActionMode": "CHANGE_SET_EXECUTE",
+                            "ChangeSetName": "pipeline-changeset",
+                            "RoleArn": "arn:aws:iam::022222222222:role/example_cloudformationRole2",
+                            "StackName": "example-stack"
+                        },
+                        "outputArtifacts": [],
+                        "inputArtifacts": [],
+                        "region": "eu-west-1",
+                        "roleArn": "arn:aws:iam::022222222222:role/example_deploymentRole2"
+                    }
+                ]
+            }
+        ],
+        "version": 12
+    }
+}

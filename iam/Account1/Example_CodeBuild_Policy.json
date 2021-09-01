@@ -4,8 +4,8 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:logs:eu-west-1:075458894664:log-group:/aws/codebuild/chatmods_build",
-                "arn:aws:logs:eu-west-1:075458894664:log-group:/aws/codebuild/chatmods_build:*"
+                "arn:aws:logs:eu-west-1:011111111111:log-group:/aws/codebuild/example-build",
+                "arn:aws:logs:eu-west-1:011111111111:log-group:/aws/codebuild/example-build:*"
             ],
             "Action": [
                 "logs:CreateLogGroup",
@@ -15,27 +15,9 @@
         },
         {
             "Effect": "Allow",
-            "Action": [
-                "ec2:*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Action": [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:CompleteLayerUpload",
-                "ecr:GetAuthorizationToken",
-                "ecr:InitiateLayerUpload",
-                "ecr:PutImage",
-                "ecr:UploadLayerPart"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"
-        },
-        {
-            "Effect": "Allow",
             "Resource": [
-                "arn:aws:s3:::codepipeline-eu-west-1-*"
+                "arn:aws:s3:::codepipeline-eu-west-1-*",
+                "arn:aws:s3:::example-build*"
             ],
             "Action": [
                 "s3:PutObject",
@@ -55,7 +37,7 @@
                 "codebuild:BatchPutCodeCoverages"
             ],
             "Resource": [
-                "arn:aws:codebuild:eu-west-1:075458894664:report-group/chatmods_build-*"
+                "arn:aws:codebuild:eu-west-1:011111111111:report-group/example-build-*"
             ]
         }
     ]

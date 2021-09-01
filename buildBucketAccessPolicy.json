@@ -1,0 +1,42 @@
+{
+  "Version": "2012-10-17",
+  "Id": "CrossAccountAccessPolicy",
+  "Statement": [
+      {
+          "Sid": "StageDeploymentObjectAccess",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "arn:aws:iam::094345010951:root"
+          },
+          "Action": "s3:Get*",
+          "Resource": "arn:aws:s3:::trustpilot-build/*"
+      },
+      {
+          "Sid": "StageDeploymentAccess",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "arn:aws:iam::094345010951:root"
+          },
+          "Action": "s3:ListBucket",
+          "Resource": "arn:aws:s3:::trustpilot-build"
+      },
+{
+          "Sid": "LiveDeploymentObjectAccess",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "arn:aws:iam::189470795347:root"
+          },
+          "Action": "s3:Get*",
+          "Resource": "arn:aws:s3:::trustpilot-build/*"
+      },
+      {
+          "Sid": "LiveDeploymentAccess",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "arn:aws:iam::189470795347:root"
+          },
+          "Action": "s3:ListBucket",
+          "Resource": "arn:aws:s3:::trustpilot-build"
+      }
+  ]
+}

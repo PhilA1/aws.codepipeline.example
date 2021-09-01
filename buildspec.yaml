@@ -5,6 +5,7 @@ phases:
     on-failure: ABORT
     commands:
       # output version
+      - echo app $APP_ID
       - echo source version $CODEBUILD_SOURCE_VERSION
       - echo build number $CODEBUILD_BUILD_NUMBER
       # Logging in to Amazon ECR...
@@ -15,8 +16,15 @@ phases:
       # Building the "production" Docker image
       - docker build --target production -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
+      # Pushing the Docker image to your ECR
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
   post_build:
     on-failure: ABORT
     commands:
-      # Pushing the Docker image to your ECR
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      # Prep template
+      - docker build --target build -t $APP_ID.build:v$CODEBUILD_BUILD_NUMBER .
+      - docker run --name $APP_ID$CODEBUILD_BUILD_NUMBER $APP_ID.build:v$CODEBUILD_BUILD_NUMBER
+      - docker cp $APP_ID$CODEBUILD_BUILD_NUMBER:/app/cdk/template-export.yml .	
+artifacts:
+  files:
+    - template-export.yml

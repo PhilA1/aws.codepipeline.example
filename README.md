@@ -1,14 +1,13 @@
 # CodePipeline
 
-## Example
-Just a quick example of how to use AWS codepipeline/codebuild CI/CD setup for a dockerised application.
+![Pipeline Overview](../docs/Pipeline.png)
+1. Developer merges PR into github "main" branch.
+2. Commit auto triggers CodePipeline execution.
+3. CodeBuild outputs artifacts into S3.
+4. CodePipeline auto deploys cloudformation stack into ACCOUNT1 Account.
+5. Developer reviews changes then approves deployment to ACCOUNT2 account.
 
-## Setup
-This setup uses a multi stage dockerfile and a buildspec.yaml in the root folder.
-
-## Configuration
-The IAM policies for the service and build roles can be auto generated but the codebuild policy needs amendments to allow a connection to the ECR.
-
-codepipeline service role: https://github.com/PhilA1/aws.codepipeline.example/blob/main/docs/codepipeline_servicerole_policy.json
-
-codebuild service role: https://github.com/PhilA1/aws.codepipeline.example/blob/main/docs/codebuild_servicerole_policy.json
+If you need to make changes, amend the pipeline.json file and use the command:
+```
+aws codepipeline update-pipeline --cli-input-json file://pipeline.json
+```

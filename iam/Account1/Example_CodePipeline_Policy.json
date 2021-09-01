@@ -50,19 +50,19 @@
         },
         {
             "Action": [
-                "elasticbeanstalk:*",
-                "ec2:*",
-                "elasticloadbalancing:*",
-                "autoscaling:*",
-                "cloudwatch:*",
-                "s3:*",
-                "sns:*",
-                "cloudformation:*",
-                "rds:*",
-                "sqs:*",
-                "ecs:*"
+                "cloudformation:*"
             ],
-            "Resource": "*",
+            "Resource": "arn:aws:cloudformation:eu-west-1:011111111111:stack/example*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::codepipeline-eu-west-1-011111111111/example/*",
+                "arn:aws:s3:::codepipeline-eu-west-1-011111111111/example*"
+            ],
             "Effect": "Allow"
         },
         {
