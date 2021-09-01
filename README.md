@@ -1,6 +1,6 @@
 # CodePipeline
 
-![Pipeline Overview](../docs/Pipeline.png)
+![Pipeline Overview](./docs/Pipeline.png)
 1. Developer merges PR into github "main" branch.
 2. Commit auto triggers CodePipeline execution.
 3. CodeBuild outputs artifacts into S3.
