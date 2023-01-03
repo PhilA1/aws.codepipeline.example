@@ -16,5 +16,5 @@ jobs:
             - run: git clone --mirror https://PHilA2:${{secrets.GITLAB_PAT}}@gitlab.com/santuk1/Classic.git
               env:
                   GITLAB_PAT: ${{secrets.GITLAB_PAT}}
-            - run: cd Classic.git
             - run: ls
+              working-directory: ./Classic.git
