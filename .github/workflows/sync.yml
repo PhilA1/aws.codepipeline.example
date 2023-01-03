@@ -9,12 +9,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2
-              with:
-                  cache: npm
-            - run: npm ci
-            - run: git clone --mirror https://PHilA2:${{secrets.GITLAB_PAT}}@gitlab.com/santuk1/Classic.git
-              env:
-                  GITLAB_PAT: ${{secrets.GITLAB_PAT}}
-            - run: ls
+            - run: git clone --mirror https://github.com/PhilA1/aws.codepipeline.example.git
+            - run: git remote set-url --push origin PHilA2:${{secrets.GITLAB_PAT}}@gitlab.com/santuk1/Classic.git
+              working-directory: ./Classic.git
+            - run: git fetch -p origin
+              working-directory: ./Classic.git
+            - run: git push --mirror
               working-directory: ./Classic.git
