@@ -1,0 +1,20 @@
+name: Sync
+on:
+    push:
+        branches:
+            - main
+jobs:
+    sync:
+        name: sync-to-gitlab
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  cache: npm
+            - run: npm ci
+            - run: git clone --mirror https://PHilA2:${{secrets.GITLAB_PAT}}@gitlab.com/santuk1/Classic.git
+              env:
+                  GITLAB_PAT: ${{secrets.GITLAB_PAT}}
+            - run: cd Classic.git
+            - run: ls
