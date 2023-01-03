@@ -11,8 +11,8 @@ jobs:
             - uses: actions/checkout@v2
             - run: git clone --mirror https://github.com/PhilA1/aws.codepipeline.example.git
             - run: git remote set-url --push origin PHilA2:${{secrets.GITLAB_PAT}}@gitlab.com/santuk1/Classic.git
-              working-directory: ./Classic.git
+              working-directory: ./aws.codepipeline.example.git
             - run: git fetch -p origin
-              working-directory: ./Classic.git
+              working-directory: ./aws.codepipeline.example.git
             - run: git push --mirror
-              working-directory: ./Classic.git
+              working-directory: ./aws.codepipeline.example.git
