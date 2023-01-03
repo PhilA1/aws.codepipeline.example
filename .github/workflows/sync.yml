@@ -8,9 +8,12 @@ jobs:
         name: sync-to-gitlab
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
+            - uses: webfactory/ssh-agent@v0.7.0
+              with:
+                  ssh-private-key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
             - run: git clone --mirror https://github.com/PhilA1/aws.codepipeline.example.git
-            - run: git remote set-url --push origin PHilA2:${{secrets.GITLAB_PAT}}@gitlab.com/santuk1/Classic.git
+            - run: git remote set-url --push origin git@gitlab.com/santuk1/Classic.git
               working-directory: ./aws.codepipeline.example.git
             - run: git fetch -p origin
               working-directory: ./aws.codepipeline.example.git
