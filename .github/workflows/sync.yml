@@ -9,13 +9,13 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: webfactory/ssh-agent@v0.7.0
-              with:
-                  ssh-private-key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
-            - run: git clone --mirror https://github.com/PhilA1/aws.codepipeline.example.git
-            - run: git remote set-url --push origin git@github.com:PhilA1/syncmirror.git
-              working-directory: ./aws.codepipeline.example.git
-            - run: git fetch -p origin
-              working-directory: ./aws.codepipeline.example.git
-            - run: git push --mirror
-              working-directory: ./aws.codepipeline.example.git
+            #            - uses: webfactory/ssh-agent@v0.7.0
+            #              with:
+            #                  ssh-private-key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
+            - run: git clone --mirror https://e1218557-sanuk_sangroup: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@github.com/santandergroup-uk/slz-classic.git
+#            - run: git remote set-url --push origin git@github.com:PhilA1/syncmirror.git
+#              working-directory: ./aws.codepipeline.example.git
+#            - run: git fetch -p origin
+#              working-directory: ./aws.codepipeline.example.git
+#            - run: git push --mirror
+#              working-directory: ./aws.codepipeline.example.git
