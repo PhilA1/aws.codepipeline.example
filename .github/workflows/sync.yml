@@ -12,7 +12,7 @@ jobs:
             #            - uses: webfactory/ssh-agent@v0.7.0
             #              with:
             #                  ssh-private-key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
-            - run: git clone --mirror https://e1218557-sanuk_sangroup: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@github.com/santandergroup-uk/slz-classic.git
+            - run: git clone --mirror ${{ secrets.REPO_URL }}
 #            - run: git remote set-url --push origin git@github.com:PhilA1/syncmirror.git
 #              working-directory: ./aws.codepipeline.example.git
 #            - run: git fetch -p origin
